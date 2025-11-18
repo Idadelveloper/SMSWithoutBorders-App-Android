@@ -20,13 +20,15 @@ git tag -f "${tagVersion}"
 git add .
 git commit -m "release: making release"
 
-./gradlew clean assembleRelease
+# ./gradlew clean assembleRelease
+./gradlew clean assembleRelease --no-build-cache --no-configuration-cache --no-daemon
 apksigner sign --ks app/keys/app-release-key.jks \
   --ks-pass pass:"$1" \
   --in app/build/outputs/apk/release/app-release-unsigned.apk \
   --out apk-outputs/"$label".apk
 
-./gradlew clean assembleRelease
+# ./gradlew clean assembleRelease
+./gradlew clean assembleRelease --no-build-cache --no-configuration-cache --no-daemon
 apksigner sign --ks app/keys/app-release-key.jks \
   --ks-pass pass:"$1" \
   --in app/build/outputs/apk/release/app-release-unsigned.apk \
