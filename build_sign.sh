@@ -15,10 +15,10 @@ label=$(sed -n '4p' version.properties | cut -d "=" -f 2)
 branch=$(git symbolic-ref HEAD | cut -d "/" -f 3)
 track=$(python3 track.py "$branch")
 
-git tag -f "${tagVersion}"
-
 git add .
 git commit -m "release: making release"
+
+git tag -f "${tagVersion}"
 
 # ./gradlew clean assembleRelease
 ./gradlew clean assembleRelease --no-build-cache --no-configuration-cache --no-daemon
