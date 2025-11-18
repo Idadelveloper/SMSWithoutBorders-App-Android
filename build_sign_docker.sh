@@ -10,13 +10,18 @@ docker_apk_image=swob_app_apk_image
 docker_apk_image_commit_check=docker_apk_image_commit_check
 docker_app_image=swob_app_app_image
 
-APP_1=$label.apk
-APP_2=$label_1.apk
+echo "[+] label: $label"
+
+APP1="$label".apk
+APP2="$label".1.apk
+
+echo "[+] App 1 := $APP1"
+echo "[+] App 2 := $APP2"
 
 CONTAINER_NAME=swob_app_container_$label
-CONTAINER_NAME_1=swob_app_container_$label_1
-CONTAINER_NAME_BUNDLE=swob_app_container_$label_bundle
-CONTAINER_NAME_COMMIT_CHECK=$(commit)_commit_check
+CONTAINER_NAME_1=swob_app_container_"$label"_1
+# CONTAINER_NAME_BUNDLE=swob_app_container_"$label"_bundle
+# CONTAINER_NAME_COMMIT_CHECK=$(commit)_commit_check
 
 minSdk=24
 
@@ -26,13 +31,13 @@ git add .
 git commit -m "release: making release"
 git tag -f "$tagVersion"
 
-echo "[+] Building apk output: $APP_1"
+echo "[+] Building apk output: $APP1"
 DOCKER_BUILDKIT=1 docker build --platform linux/amd64 -t $docker_apk_image --target apk-builder .
 docker run --name $CONTAINER_NAME -e PASS=$1 $docker_apk_image && \
-	docker cp $CONTAINER_NAME:/android/app/build/outputs/apk/release/app-release.apk apk-outputs/$APP_1
+	docker cp $CONTAINER_NAME:/android/app/build/outputs/apk/release/app-release.apk apk-outputs/$APP1
 
-echo "[+] Building apk output: $APP_2"
+echo "[+] Building apk output: $APP2"
 docker run --name $CONTAINER_NAME_1 -e PASS=$1 $docker_apk_image && \
-	docker cp $CONTAINER_NAME_1:/android/app/build/outputs/apk/release/app-release.apk apk-outputs/$APP_2
+	docker cp $CONTAINER_NAME_1:/android/app/build/outputs/apk/release/app-release.apk apk-outputs/$APP2
 
-diffoscope apk-outputs/$APP_1 apk-outputs/$APP_2
+diffoscope apk-outputs/$APP1 apk-outputs/$APP2
