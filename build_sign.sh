@@ -2,7 +2,7 @@
 set -euo pipefail
 
 MIN_SDK=24
-github_url="https://api.github.com/repos/dekusms/DekuSMS-Android/releases"
+github_url="https://api.github.com/repos/smswithoutborders/RelaySMS-Android/releases"
 
 python3 -m venv venv
 venv/bin/pip install -r requirements.txt
