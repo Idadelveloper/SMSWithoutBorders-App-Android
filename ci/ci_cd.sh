@@ -13,4 +13,4 @@ cd SMSWithoutBorders-App-Android && \
 	( \
 	. venv/bin/activate && \
 	pip install -r requirements.txt && \
-	make release-cd status="draft")
+	make check-diffoscope status="draft")
