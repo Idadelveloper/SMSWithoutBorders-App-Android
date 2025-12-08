@@ -25,3 +25,4 @@ gradle.properties
 tmp.sh
 .idea/misc.xml
 *.dm
+/.kotlin/*
